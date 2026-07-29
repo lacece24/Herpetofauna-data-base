@@ -6,13 +6,9 @@
     <title>Registro de Herpetofauna · Reserva Juanilama</title>
     <style>
         :root {
-            --verde-oscuro: #2f5d3a;
-            --verde-medio: #5c8a58;
-            --verde-claro: #dce8d4;
-            --tierra: #8b6f47;
-            --arena: #f3efe6;
-            --texto: #2d2d2d;
-            --blanco: #ffffff;
+            --verde-oscuro: #2f5d3a; --verde-medio: #5c8a58; --verde-claro: #dce8d4;
+            --tierra: #8b6f47; --arena: #f3efe6; --naranja: #e67e22; --naranja-oscuro: #c0651f;
+            --texto: #2d2d2d; --blanco: #ffffff;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background: var(--arena); color: var(--texto); min-height: 100vh; }
@@ -27,7 +23,9 @@
         .botones-filtro { display: flex; flex-wrap: wrap; gap: 10px; }
         .botones-filtro button { border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; background: var(--verde-claro); color: var(--verde-oscuro); font-weight: bold; transition: 0.3s; font-size: 0.95rem; }
         .botones-filtro button.activo { background: var(--verde-oscuro); color: white; }
-        #contenedor-especies { max-width: 1200px; margin: auto; padding: 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .botones-filtro button.extra-btn { background: #fdebd0; color: var(--naranja-oscuro); }
+        .botones-filtro button.extra-btn.activo { background: var(--naranja); color: white; }
+        #contenedor-especies, #contenedor-mamiferos { max-width: 1200px; margin: auto; padding: 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .tarjeta { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.2s ease; }
         .tarjeta:hover { transform: translateY(-4px); }
         .tarjeta img { width: 100%; height: 220px; object-fit: cover; }
@@ -38,14 +36,21 @@
         .info p { margin: 4px 0; font-size: 0.95rem; }
         .nota-campo { background: #f9f6ef; border-left: 4px solid var(--tierra); padding: 10px; margin-top: 10px; border-radius: 0 8px 8px 0; font-style: italic; color: #555; font-size: 0.9rem; }
         .nota-campo strong { color: var(--tierra); }
-        .seccion-creadores, .seccion-extra { max-width: 700px; margin: 40px auto; padding: 20px; background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; }
-        .seccion-creadores h2, .seccion-extra h2 { color: var(--verde-oscuro); margin-bottom: 15px; }
-        .fotos-creadores, .fotos-mamiferos { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px; }
-        .fotos-creadores img, .fotos-mamiferos img { width: 100%; max-width: 250px; border-radius: 12px; object-fit: cover; }
-        .seccion-creadores p, .seccion-extra p { font-size: 0.95rem; color: #555; line-height: 1.6; }
+        .seccion-creadores { max-width: 700px; margin: 40px auto; padding: 20px; background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; }
+        .seccion-creadores h2 { color: var(--verde-oscuro); margin-bottom: 15px; }
+        .fotos-creadores { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px; }
+        .fotos-creadores img { width: 100%; max-width: 250px; border-radius: 12px; object-fit: cover; }
+        .seccion-creadores p { font-size: 0.95rem; color: #555; line-height: 1.6; }
         .seccion-creadores .nombres { font-weight: bold; color: var(--verde-oscuro); font-size: 1.1rem; }
         .seccion-creadores .tutor { color: var(--tierra); font-weight: bold; }
-        .mapa-reservado { background: #e8f0e4; border: 2px dashed var(--verde-medio); border-radius: 12px; padding: 40px; margin: 20px 0; color: var(--verde-oscuro); font-style: italic; }
+        .mapa-contenedor { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+        .mapa-contenedor img { width: 100%; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+        .mapa-info { max-width: 900px; margin: 15px auto; padding: 20px; background: white; border-radius: 16px; text-align: center; }
+        .mapa-info h2 { color: var(--naranja-oscuro); }
+        .mapa-info p { color: #555; line-height: 1.6; margin: 10px 0; }
+        .seccion-extra-info { max-width: 900px; margin: 20px auto; padding: 20px; background: white; border-radius: 16px; text-align: center; }
+        .seccion-extra-info h2, .seccion-extra-info h3 { color: var(--naranja-oscuro); margin-bottom: 10px; }
+        .seccion-extra-info p { color: #555; line-height: 1.6; margin: 10px 0; }
         footer { text-align: center; padding: 20px; color: #999; font-size: 0.85rem; }
         .mensaje { text-align: center; padding: 30px; font-size: 1.1rem; color: #666; }
         @media (max-width: 600px) {
@@ -71,59 +76,59 @@
         <button class="activo" data-clase="Todos">Todos</button>
         <button data-clase="Anfibio">🐸 Anfibios</button>
         <button data-clase="Reptil">🦎 Reptiles</button>
+        <button class="extra-btn" data-clase="Extra">📌 Extra</button>
     </div>
 </section>
 
 <main id="contenedor-especies"></main>
 
-<section class="seccion-creadores">
-    <h2>Sobre el Proyecto · About the Project</h2>
-    <div class="fotos-creadores">
-        <img src="https://i.postimg.cc/nr4h4XjG/alberth-foto.jpg" alt="Con Alberth Rojas" loading="lazy">
-        <img src="https://i.postimg.cc/151g8QnN/foto-especial.jpg" alt="Foto especial" loading="lazy">
+<div id="contenedor-extra" style="display:none;">
+
+    <!-- MAPA GRANDE -->
+    <div class="mapa-contenedor">
+        <img src="https://i.postimg.cc/G9npfRjg/imagen-2026-07-28-175554145.png" alt="Mapa de la Reserva Juanilama" loading="lazy">
     </div>
-    <p>
-        Proyecto de investigación llevado a cabo durante un año y dos meses.<br>
-        <em>Research project carried out over one year and two months.</em>
-    </p>
-    <p class="nombres">
-        Adrián Quesada Enríquez (17 años)<br>
-        Kevin Salas González (18 años)
-    </p>
-    <p>
-        Bajo la tutoría de · <em>Under the mentorship of</em><br>
-        <span class="tutor">Alberth Rojas Carranza</span>
-    </p>
-</section>
-
-<section class="seccion-extra">
-    <h2>📌 Extra · Más allá del proyecto</h2>
-
-    <h3>🗺️ Mapa de la Reserva</h3>
-    <div class="mapa-reservado">
-        🗺️ Mapa GIS de la Reserva Juanilama · Disponible próximamente<br>
-        <em>GIS Map of Juanilama Reserve · Coming soon</em>
+    <div class="mapa-info">
+        <h2>🗺️ Área de Estudio · Study Area</h2>
+        <p>
+            <strong>Reserva Juanilama, San Carlos, Alajuela, Costa Rica.</strong><br>
+            Área de Conservación Arenal-Huetar Norte (ACA-HN).<br><br>
+            Esta reserva cuenta con <strong>19 hectáreas</strong> de bosque tropical húmedo, senderos, quebradas, arroyos, una naciente y una catarata. Es administrada por la Asociación Agrocoturística local y representa un refugio vital para la biodiversidad de la zona.<br><br>
+            <em>This reserve spans 19 hectares of tropical rainforest, trails, streams, a spring, and a waterfall. Managed by the local Agrocotourism Association, it is a vital refuge for the area's biodiversity.</em>
+        </p>
     </div>
 
-    <h3>📸 Cámaras Trampa · Mamíferos Registrados</h3>
-    <p>
-        Como parte del proyecto se instalaron cámaras trampa con el objetivo de detectar herpetofauna. No se registró ningún anfibio o reptil con este método. Sin embargo, los dispositivos captaron una serie de mamíferos terrestres que habitan la reserva. Estos hallazgos <strong>no forman parte del proyecto de herpetofauna</strong>, pero representan una ventana hacia el futuro de la investigación en la Reserva Juanilama.<br><br>
-        <em>As part of the project, camera traps were installed to detect herpetofauna. No amphibians or reptiles were recorded using this method. However, the cameras captured a series of terrestrial mammals inhabiting the reserve. These findings <strong>are not part of the herpetofauna project</strong>, but represent a window into the future of research in the Juanilama Reserve.</em>
-    </p>
-    <div class="fotos-mamiferos">
-        <figure><img src="https://i.postimg.cc/bNm04Fnr/jaguar.jpg" alt="Jaguar"><figcaption>🐆 <em>Panthera onca</em> · Jaguar</figcaption></figure>
-        <figure><img src="https://i.postimg.cc/02kdWqbW/margay.jpg" alt="Margay"><figcaption>🐱 <em>Leopardus wiedii</em> · Caucel</figcaption></figure>
-        <figure><img src="https://i.postimg.cc/fbGfBt9f/tamandua.jpg" alt="Oso hormiguero"><figcaption>🐻 <em>Tamandua tetradactyla</em> · Oso hormiguero</figcaption></figure>
-        <figure><img src="https://i.postimg.cc/NFgTz1fP/cherenga.jpg" alt="Guatusa"><figcaption>🐿️ <em>Dasyprocta punctata</em> · Guatusa</figcaption></figure>
-        <figure><img src="https://i.postimg.cc/q7L5FGp9/IMG-20260728-WA0073.jpg" alt="Armadillo"><figcaption>🛡️ <em>Dasypus novemcinctus</em> · Armadillo</figcaption></figure>
-        <figure><img src="https://i.postimg.cc/fyZjQG5f/opossum.jpg" alt="Zarigüeya"><figcaption>🦊 <em>Philander opossum</em> · Zorro de cuatro ojos</figcaption></figure>
-        <figure><img src="https://i.postimg.cc/Ssc75S6v/rodentia.jpg" alt="Roedor"><figcaption>🐭 Orden Rodentia · Ratones de monte</figcaption></figure>
+    <!-- MAMÍFEROS -->
+    <div class="seccion-extra-info">
+        <h3>📸 Mamíferos registrados con cámaras trampa</h3>
+        <p>
+            Como parte del proyecto se instalaron cámaras trampa con el objetivo de detectar herpetofauna. No se registró ningún anfibio o reptil con este método. Sin embargo, los dispositivos captaron una serie de mamíferos terrestres que habitan la reserva. Estos hallazgos <strong>no forman parte del proyecto de herpetofauna</strong>, pero representan una ventana hacia el futuro de la investigación en la Reserva Juanilama.<br><br>
+            <em>Camera traps were installed to detect herpetofauna. No amphibians or reptiles were recorded. However, the cameras captured terrestrial mammals inhabiting the reserve. These findings are not part of the herpetofauna project, but represent a window into the future of research in Juanilama.</em>
+        </p>
     </div>
-    <p style="margin-top:15px; font-style:italic; color:#888;">
-        Este proyecto no se estanca en la herpetofauna. El futuro es estudiar también los mamíferos de la reserva.<br>
-        <em>This project does not stop at herpetofauna. The future is also studying the mammals of the reserve.</em>
-    </p>
-</section>
+    <div id="contenedor-mamiferos"></div>
+
+    <!-- CREADORES -->
+    <div class="seccion-creadores">
+        <h2>Sobre el Proyecto · About the Project</h2>
+        <div class="fotos-creadores">
+            <img src="https://i.postimg.cc/nr4h4XjG/alberth-foto.jpg" alt="Con Alberth Rojas" loading="lazy">
+            <img src="https://i.postimg.cc/151g8QnN/foto-especial.jpg" alt="Foto especial" loading="lazy">
+        </div>
+        <p>
+            Proyecto de investigación llevado a cabo durante un año y dos meses.<br>
+            <em>Research project carried out over one year and two months.</em>
+        </p>
+        <p class="nombres">
+            Adrián Quesada Enríquez (17 años)<br>
+            Kevin Salas González (18 años)
+        </p>
+        <p>
+            Bajo la tutoría de · <em>Under the mentorship of</em><br>
+            <span class="tutor">Alberth Rojas Carranza</span>
+        </p>
+    </div>
+</div>
 
 <footer>
     🐸🦎 Proyecto de Feria Científica · 2026 🦎🐸
@@ -131,7 +136,6 @@
 
 <script>
 const especiesData = [
-    // ANFIBIOS (18 originales + 7 nuevas = 25)
     { nombre_cientifico: "Craugastor bransfordii", nombre_comun: "Rana de hojarasca de Bransford", nombre_ingles: "Bransford's Litter Frog", familia: "Craugastoridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/2js2xMFz/bransfordii-1.jpg", clase: "Anfibio", nota: "Es una especie difícil de identificar debido a los morfos que tiene." },
     { nombre_cientifico: "Incilius valliceps", nombre_comun: "Sapo del Golfo", nombre_ingles: "Gulf Coast Toad", familia: "Bufonidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/CKGrVY8L/valliceps-nueva.jpg", clase: "Anfibio", nota: "Estaba en la hojarasca inmóvil intentando pasar desapercibido." },
     { nombre_cientifico: "Craugastor fitzingeri", nombre_comun: "Rana de hojarasca de Fitzinger", nombre_ingles: "Fitzinger's Litter Frog", familia: "Craugastoridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/G3WqjVJ9/IMG-20250823-210650-Adrian-Curioso.jpg", clase: "Anfibio", nota: "Estaba encima de una roca ubicada en la naciente, inmóvil." },
@@ -139,8 +143,8 @@ const especiesData = [
     { nombre_cientifico: "Boana rufitela", nombre_comun: "Rana arbórea de flancos moteados", nombre_ingles: "Mottled Tree Frog", familia: "Hylidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/nLbS5MCj/rufitela.jpg", clase: "Anfibio", nota: "Habían un grupo de esta especie croando al lado de un cuerpo de agua." },
     { nombre_cientifico: "Bolitoglossa striatula", nombre_comun: "Salamandra estriada", nombre_ingles: "Striped Salamander", familia: "Plethodontidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/BnsprFzf/striatula-6.jpg", clase: "Anfibio", nota: "Cuando la descubrimos pensamos que era una lagartija, pero carecía de escamas." },
     { nombre_cientifico: "Smilisca sordida", nombre_comun: "Rana arbórea de la costa", nombre_ingles: "Pacific Lowland Tree Frog", familia: "Hylidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/mrSJbjR4/sordida.jpg", clase: "Anfibio", nota: "Difícil de identificar debido al parecido con Smilisca phaeota." },
-    { nombre_cientifico: "Teratohyla spinosa", nombre_comun: "Rana de cristal espinosa", nombre_ingles: "Spiny Glass Frog", familia: "Centrolenidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/8k2tb9BG/espinosa-8.jpg", clase: "Anfibio", nota: "Super pequeña, no obstante, super hermosa. Su canto es estimulado por la lluvia." },
-    { nombre_cientifico: "Smilisca phaeota", nombre_comun: "Rana arbórea enmascarada", nombre_ingles: "Masked Tree Frog", familia: "Hylidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/yY0npjvg/phaeota-9.jpg", clase: "Anfibio", nota: "Una de mis ranas favoritas. Estaba activa en una hoja al lado de una naciente." },
+    { nombre_cientifico: "Teratohyla spinosa", nombre_comun: "Rana de cristal espinosa", nombre_ingles: "Spiny Glass Frog", familia: "Centrolenidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/8k2tb9BG/espinosa-8.jpg", clase: "Anfibio", nota: "Super pequeña, no obstante, super hermosa." },
+    { nombre_cientifico: "Smilisca phaeota", nombre_comun: "Rana arbórea enmascarada", nombre_ingles: "Masked Tree Frog", familia: "Hylidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/yY0npjvg/phaeota-9.jpg", clase: "Anfibio", nota: "Una de mis ranas favoritas." },
     { nombre_cientifico: "Diasporus diastema", nombre_comun: "Rana de lluvia común", nombre_ingles: "Common Rain Frog", familia: "Eleutherodactylidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/Pfg2M9zf/diastema-10.jpg", clase: "Anfibio", nota: "Es pequeña, pero es la que le da vida al bosque con su canto." },
     { nombre_cientifico: "Scinax elaeochroa", nombre_comun: "Rana arbórea de ojos bronce", nombre_ingles: "Bronze-eyed Tree Frog", familia: "Hylidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/fL339Wf6/elaechroa.jpg", clase: "Anfibio", nota: "Es una de mis favoritas. La he encontrado una vez en la reserva pero como cinco veces en mi casa." },
     { nombre_cientifico: "Dendrobates auratus", nombre_comun: "Rana dardo venenosa verde y negra", nombre_ingles: "Green and Black Poison Dart Frog", familia: "Dendrobatidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/43fNz4sL/auratus-nueva.jpg", clase: "Anfibio", nota: "Siempre que veo esta especie nunca están en solitario." },
@@ -148,40 +152,51 @@ const especiesData = [
     { nombre_cientifico: "Incilius coniferus", nombre_comun: "Sapo de bosque húmedo", nombre_ingles: "Evergreen Toad", familia: "Bufonidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/F1Xh1NTx/coniferus-nueva.jpg", clase: "Anfibio", nota: "Especie que hemos notado común en esta zona del Cantón." },
     { nombre_cientifico: "Gymnopis multiplicata", nombre_comun: "Solda con solda", nombre_ingles: "Purple Caecilian", familia: "Dermophiidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/prH2LPGj/multiplicata-nueva.jpg", clase: "Anfibio", nota: "Al principio estábamos confundidos, ya que creímos que se trataba de una serpiente." },
     { nombre_cientifico: "Leptodactylus poecilochilus", nombre_comun: "Rana sapo de flancos moteados", nombre_ingles: "Mottled-flanked Frog", familia: "Leptodactylidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/XY3LR5zc/poecilochilus-16.jpg", clase: "Anfibio", nota: "Se supone que esta especie no debería encontrarse en esta ecorregión, sin embargo, fue encontrada aquí." },
-    { nombre_cientifico: "Craugastor crassidigitus", nombre_comun: "Rana de hojarasca dedos gruesos", nombre_ingles: "Thick-toed Litter Frog", familia: "Craugastoridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/gJpxFYsh/crassidigitus-17.jpg", clase: "Anfibio", nota: "Una especie super común en el transecto tres. Antes se confundía con Craugastor fitzingeri." },
+    { nombre_cientifico: "Craugastor crassidigitus", nombre_comun: "Rana de hojarasca dedos gruesos", nombre_ingles: "Thick-toed Litter Frog", familia: "Craugastoridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/gJpxFYsh/crassidigitus-17.jpg", clase: "Anfibio", nota: "Una especie super común en el transecto tres." },
     { nombre_cientifico: "Scinax boulengeri", nombre_comun: "Rana arbórea de Boulenger", nombre_ingles: "Boulenger's Snouted Treefrog", familia: "Hylidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/3RW8cLyX/boulongeri.jpg", clase: "Anfibio", nota: "Especie de rana arbórea encontrada en la reserva." },
-    { nombre_cientifico: "Leptodactylus savagei", nombre_comun: "Rana sapo de Savage", nombre_ingles: "Savage's Thin-toed Frog", familia: "Leptodactylidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/QxMb0rzT/Savagei.jpg", clase: "Anfibio", nota: "Registrada durante los muestreos nocturnos en la reserva." },
-    { nombre_cientifico: "Incilius melanochlorus", nombre_comun: "Sapo de bosque oscuro", nombre_ingles: "Dark Forest Toad", familia: "Bufonidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/ZqjnfX2C/melanochlorus.jpg", clase: "Anfibio", nota: "Encontrado en zonas de bosque denso de la reserva." },
-    { nombre_cientifico: "Rhinella marina", nombre_comun: "Sapo gigante", nombre_ingles: "Cane Toad", familia: "Bufonidae", habitat: "Áreas abiertas y bosques", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/Kj8nqnJH/Rhinella-marina.jpg", clase: "Anfibio", nota: "El sapo más grande de Costa Rica, observado en los senderos." },
-    { nombre_cientifico: "Dendropsophus ebraccatus", nombre_comun: "Rana arbórea reloj de arena", nombre_ingles: "Hourglass Tree Frog", familia: "Hylidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/4yYYHw8z/ebraccatus.jpg", clase: "Anfibio", nota: "Reconocible por su patrón dorsal en forma de reloj de arena." },
-    { nombre_cientifico: "Craugastor persimilis", nombre_comun: "Rana de hojarasca similar", nombre_ingles: "Similar Litter Frog", familia: "Craugastoridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/c1kY1tD4/PERSIMILIS.jpg", clase: "Anfibio", nota: "Especie críptica, muy similar a otras ranas de hojarasca del género Craugastor." },
-    { nombre_cientifico: "Oophaga pumilio", nombre_comun: "Rana dardo roja", nombre_ingles: "Strawberry Poison Dart Frog", familia: "Dendrobatidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/W4mgs9K2/pumilio.jpg", clase: "Anfibio", nota: "Pequeña y venenosa, de colores brillantes que advierten su toxicidad." },
-    { nombre_cientifico: "Basiliscus vittatus", nombre_comun: "Basilisco café", nombre_ingles: "Brown Basilisk", familia: "Corytophanidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/25YTdBNf/Whats-App-Image-2026-07-28-at-4-34-35-PM.jpg", clase: "Reptil", nota: "Conocido como 'lagartija Jesucristo' por su capacidad de correr sobre el agua." },
-    // REPTILES
+    { nombre_cientifico: "Leptodactylus savagei", nombre_comun: "Rana toro", nombre_ingles: "Savage's Thin-toed Frog", familia: "Leptodactylidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/QxMb0rzT/Savagei.jpg", clase: "Anfibio", nota: "Registrada durante los muestreos nocturnos en la reserva." },
+    { nombre_cientifico: "Incilius melanochlorus", nombre_comun: "Sapo de bosque húmedo", nombre_ingles: "Dark Forest Toad", familia: "Bufonidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/ZqjnfX2C/melanochlorus.jpg", clase: "Anfibio", nota: "Encontrado en zonas de bosque denso de la reserva." },
+    { nombre_cientifico: "Rhinella marina", nombre_comun: "Sapo gigante", nombre_ingles: "Cane Toad", familia: "Bufonidae", habitat: "Áreas abiertas y bosques", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/Kj8nqnJH/Rhinella-marina.jpg", clase: "Anfibio", nota: "El sapo más grande de Costa Rica." },
+    { nombre_cientifico: "Dendropsophus ebraccatus", nombre_comun: "Rana arbórea reloj de arena", nombre_ingles: "Hourglass Tree Frog", familia: "Hylidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/4yYYHw8z/ebraccatus.jpg", clase: "Anfibio", nota: "Reconocible por su patrón dorsal." },
+    { nombre_cientifico: "Craugastor persimilis", nombre_comun: "Rana de hojarasca similar", nombre_ingles: "Similar Litter Frog", familia: "Craugastoridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/c1kY1tD4/PERSIMILIS.jpg", clase: "Anfibio", nota: "Especie críptica del género Craugastor." },
+    { nombre_cientifico: "Oophaga pumilio", nombre_comun: "Rana dardo roja", nombre_ingles: "Strawberry Poison Dart Frog", familia: "Dendrobatidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/W4mgs9K2/pumilio.jpg", clase: "Anfibio", nota: "Pequeña y venenosa, de colores brillantes." },
+    { nombre_cientifico: "Basiliscus vittatus", nombre_comun: "Basilisco café", nombre_ingles: "Brown Basilisk", familia: "Corytophanidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/25YTdBNf/Whats-App-Image-2026-07-28-at-4-34-35-PM.jpg", clase: "Reptil", nota: "Conocido como 'lagartija Jesucristo'." },
     { nombre_cientifico: "Bothrops asper", nombre_comun: "Terciopelo", nombre_ingles: "Fer-de-Lance", familia: "Viperidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/zD6B91F8/asper.jpg", clase: "Reptil", nota: "Una de las serpientes más emblemáticas de Costa Rica." },
     { nombre_cientifico: "Micrurus mosquitensis", nombre_comun: "Coral mosquitense", nombre_ingles: "Mosquitia Coral Snake", familia: "Elapidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/tR3qmVJx/mosquetensis.jpg", clase: "Reptil", nota: "Serpiente de coral encontrada en la región." },
     { nombre_cientifico: "Rhinoclemmys funerea", nombre_comun: "Tortuga de río negra", nombre_ingles: "Black Wood Turtle", familia: "Geoemydidae", habitat: "Ríos y quebradas", estado: "Casi amenazada (NT)", imagen: "https://i.postimg.cc/MpFqj73v/funera.jpg", clase: "Reptil", nota: "Tortuga acuática de agua dulce." },
-    { nombre_cientifico: "Holcosus festivus", nombre_comun: "Ameiva centroamericana", nombre_ingles: "Central American Ameiva", familia: "Teiidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/HnXV6SKX/Festivus-nueva.jpg", clase: "Reptil", nota: "Estaba inmóvil, pero se desplazó cuando nos detectó de una forma muy rápida." },
-    { nombre_cientifico: "Imantodes cenchoa", nombre_comun: "Bejuquilla", nombre_ingles: "Blunt-headed Treesnake", familia: "Colubridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/4dMwqFDp/cenchoa-19.jpg", clase: "Reptil", nota: "Apareció pocos centímetros de nosotros, la confundimos con un bejuco." },
-    { nombre_cientifico: "Bothriechis nigroadspersus", nombre_comun: "Bocaracá", nombre_ingles: "Eyelash Palm Pitviper", familia: "Viperidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/fTPkW7C6/Nigroadpersus-20.jpg", clase: "Reptil", nota: "Una de las serpientes favoritas de mi tutor Alberth Rojas." },
-    { nombre_cientifico: "Leptodeira rhombifera", nombre_comun: "Serpiente ojo de gato", nombre_ingles: "Cat-eyed Snake", familia: "Colubridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/tCFDvk2d/rhombifera-21.jpg", clase: "Reptil", nota: "Fue encontrada encima de un tronco moviéndose buscando cazar." },
-    { nombre_cientifico: "Basiliscus plumifrons", nombre_comun: "Basilisco verde", nombre_ingles: "Green Basilisk", familia: "Corytophanidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/QMvcYfsv/plumifrons.jpg", clase: "Reptil", nota: "Encontrado en la reserva. Capaz de correr sobre el agua." },
-    { nombre_cientifico: "Anolis oxylophus", nombre_comun: "Anolis de río", nombre_ingles: "Stream Anole", familia: "Anolidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/L6SXH3GF/oxylophus-nueva.jpg", clase: "Reptil", nota: "Siempre se encuentra durmiendo en hojas o rocas en cuerpos de agua." },
-    { nombre_cientifico: "Anolis humilis", nombre_comun: "Anolis de suelo", nombre_ingles: "Ground Anole", familia: "Anolidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/4NwJXkzp/humilis-nuevo.jpg", clase: "Reptil", nota: "Uno de mis Anolis favoritos. Especie bastante escurridiza." },
-    { nombre_cientifico: "Chelydra acutirostris", nombre_comun: "Tortuga mordedora", nombre_ingles: "South American Snapping Turtle", familia: "Chelydridae", habitat: "Ríos y quebradas", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/Rh60NP9X/acutirostris-nueva.jpg", clase: "Reptil", nota: "La encontramos de noche antes de que el proyecto empezara." },
-    { nombre_cientifico: "Mastigodryas melanolomus", nombre_comun: "Serpiente corredora", nombre_ingles: "Salmon-bellied Racer", familia: "Colubridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/WbsNRbqX/melanolomus.jpg", clase: "Reptil", nota: "Encontrada al lado de la naciente durante lluvia fuerte buscando ranas." },
-    { nombre_cientifico: "Sibon nebulatus", nombre_comun: "Serpiente caracolera", nombre_ingles: "Cloudy Snail-eating Snake", familia: "Colubridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/g2SkHFj9/nebulatus-nueva.jpg", clase: "Reptil", nota: "Especie con dentición opistoglifa. Muy tranquila." },
-    { nombre_cientifico: "Clelia clelia", nombre_comun: "Zopilota", nombre_ingles: "Mussurana", familia: "Colubridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/bYDmkpnT/clelia-28.jpg", clase: "Reptil", nota: "La encontramos muy activa buscando una presa." },
-    { nombre_cientifico: "Corytophanes cristatus", nombre_comun: "Perro zompopo", nombre_ingles: "Helmeted Iguana", familia: "Corytophanidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/KY5k61kY/perrozompopo.jpg", clase: "Reptil", nota: "El bichillo se movía al lado contrario de donde lo mirábamos." },
-    { nombre_cientifico: "Porthidium nasutum", nombre_comun: "Tamagá narigona", nombre_ingles: "Hognose Pit Viper", familia: "Viperidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/3wz8zX26/nasutum-nueva.jpg", clase: "Reptil", nota: "Casi sufro de un ataque al corazón, ya que casi la piso." },
-    { nombre_cientifico: "Hydromorphus concolor", nombre_comun: "Serpiente de agua", nombre_ingles: "Costa Rican Water Snake", familia: "Colubridae", habitat: "Ríos y quebradas", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/pT7WbDzt/concolor-nueva.jpg", clase: "Reptil", nota: "Fue súper tímida y era una excelente nadadora, encontrada en el arroyo." },
-    { nombre_cientifico: "Iguana iguana", nombre_comun: "Iguana verde", nombre_ingles: "Green Iguana", familia: "Iguanidae", habitat: "Bosque tropical húmedo y seco", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/d0f9PqR9/iguana-iguana.jpg", clase: "Reptil", nota: "Encontrada en la reserva. Anteriormente confundida con un basilisco verde." }
+    { nombre_cientifico: "Holcosus festivus", nombre_comun: "Ameiva centroamericana", nombre_ingles: "Central American Ameiva", familia: "Teiidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/HnXV6SKX/Festivus-nueva.jpg", clase: "Reptil", nota: "Estaba inmóvil, pero se desplazó rápidamente." },
+    { nombre_cientifico: "Imantodes cenchoa", nombre_comun: "Bejuquilla", nombre_ingles: "Blunt-headed Treesnake", familia: "Colubridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/4dMwqFDp/cenchoa-19.jpg", clase: "Reptil", nota: "La confundimos con un bejuco." },
+    { nombre_cientifico: "Bothriechis nigroadspersus", nombre_comun: "Bocaracá", nombre_ingles: "Eyelash Palm Pitviper", familia: "Viperidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/fTPkW7C6/Nigroadpersus-20.jpg", clase: "Reptil", nota: "Una de las serpientes favoritas de Alberth Rojas." },
+    { nombre_cientifico: "Leptodeira rhombifera", nombre_comun: "Serpiente ojo de gato", nombre_ingles: "Cat-eyed Snake", familia: "Colubridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/tCFDvk2d/rhombifera-21.jpg", clase: "Reptil", nota: "Encontrada buscando cazar." },
+    { nombre_cientifico: "Basiliscus plumifrons", nombre_comun: "Basilisco verde", nombre_ingles: "Green Basilisk", familia: "Corytophanidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/QMvcYfsv/plumifrons.jpg", clase: "Reptil", nota: "Capaz de correr sobre el agua." },
+    { nombre_cientifico: "Anolis oxylophus", nombre_comun: "Anolis de río", nombre_ingles: "Stream Anole", familia: "Anolidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/L6SXH3GF/oxylophus-nueva.jpg", clase: "Reptil", nota: "Duerme en hojas sobre el agua." },
+    { nombre_cientifico: "Anolis humilis", nombre_comun: "Anolis de suelo", nombre_ingles: "Ground Anole", familia: "Anolidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/4NwJXkzp/humilis-nuevo.jpg", clase: "Reptil", nota: "Uno de mis Anolis favoritos." },
+    { nombre_cientifico: "Chelydra acutirostris", nombre_comun: "Tortuga mordedora", nombre_ingles: "South American Snapping Turtle", familia: "Chelydridae", habitat: "Ríos y quebradas", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/Rh60NP9X/acutirostris-nueva.jpg", clase: "Reptil", nota: "Encontrada de noche." },
+    { nombre_cientifico: "Mastigodryas melanolomus", nombre_comun: "Serpiente corredora", nombre_ingles: "Salmon-bellied Racer", familia: "Colubridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/WbsNRbqX/melanolomus.jpg", clase: "Reptil", nota: "Buscando ranas durante lluvia." },
+    { nombre_cientifico: "Sibon nebulatus", nombre_comun: "Serpiente caracolera", nombre_ingles: "Cloudy Snail-eating Snake", familia: "Colubridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/g2SkHFj9/nebulatus-nueva.jpg", clase: "Reptil", nota: "Muy tranquila." },
+    { nombre_cientifico: "Clelia clelia", nombre_comun: "Zopilota", nombre_ingles: "Mussurana", familia: "Colubridae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/bYDmkpnT/clelia-28.jpg", clase: "Reptil", nota: "Muy activa buscando presa." },
+    { nombre_cientifico: "Corytophanes cristatus", nombre_comun: "Perro zompopo", nombre_ingles: "Helmeted Iguana", familia: "Corytophanidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/KY5k61kY/perrozompopo.jpg", clase: "Reptil", nota: "Se movía al lado contrario." },
+    { nombre_cientifico: "Porthidium nasutum", nombre_comun: "Tamagá narigona", nombre_ingles: "Hognose Pit Viper", familia: "Viperidae", habitat: "Bosque tropical húmedo", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/3wz8zX26/nasutum-nueva.jpg", clase: "Reptil", nota: "Casi la piso." },
+    { nombre_cientifico: "Hydromorphus concolor", nombre_comun: "Serpiente de agua", nombre_ingles: "Costa Rican Water Snake", familia: "Colubridae", habitat: "Ríos y quebradas", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/pT7WbDzt/concolor-nueva.jpg", clase: "Reptil", nota: "Tímida y excelente nadadora." },
+    { nombre_cientifico: "Iguana iguana", nombre_comun: "Iguana verde", nombre_ingles: "Green Iguana", familia: "Iguanidae", habitat: "Bosque tropical húmedo y seco", estado: "Preocupación menor (LC)", imagen: "https://i.postimg.cc/d0f9PqR9/iguana-iguana.jpg", clase: "Reptil", nota: "Encontrada en la reserva." }
+];
+
+const mamiferosData = [
+    { nombre: "Jaguar", cientifico: "Panthera onca", imagen: "https://i.postimg.cc/bNm04Fnr/jaguar.jpg" },
+    { nombre: "Caucel / Margay", cientifico: "Leopardus wiedii", imagen: "https://i.postimg.cc/02kdWqbW/margay.jpg" },
+    { nombre: "Oso hormiguero", cientifico: "Tamandua tetradactyla", imagen: "https://i.postimg.cc/fbGfBt9f/tamandua.jpg" },
+    { nombre: "Guatusa", cientifico: "Dasyprocta punctata", imagen: "https://i.postimg.cc/NFgTz1fP/cherenga.jpg" },
+    { nombre: "Armadillo", cientifico: "Dasypus novemcinctus", imagen: "https://i.postimg.cc/q7L5FGp9/IMG-20260728-WA0073.jpg" },
+    { nombre: "Zorro de cuatro ojos", cientifico: "Philander opossum", imagen: "https://i.postimg.cc/fyZjQG5f/opossum.jpg" },
+    { nombre: "Ratones de monte", cientifico: "Orden Rodentia", imagen: "https://i.postimg.cc/Ssc75S6v/rodentia.jpg" }
 ];
 
 let idiomaActual = "es";
 let filtroClase = "Todos";
 const buscador = document.getElementById("busqueda");
 const contenedor = document.getElementById("contenedor-especies");
+const contenedorExtra = document.getElementById("contenedor-extra");
+const contenedorMamiferos = document.getElementById("contenedor-mamiferos");
 const botones = document.querySelectorAll("[data-clase]");
 
 function cambiarIdioma(idioma) {
@@ -192,7 +207,31 @@ function cambiarIdioma(idioma) {
     renderizar();
 }
 
+function renderizarMamiferos() {
+    contenedorMamiferos.innerHTML = mamiferosData.map(m => `
+        <article class="tarjeta">
+            <img src="${m.imagen}" alt="${m.nombre}" loading="lazy">
+            <div class="info">
+                <h2>${m.nombre}</h2>
+                <div class="nombre-cientifico">${m.cientifico}</div>
+            </div>
+        </article>
+    `).join("");
+}
+
 function renderizar() {
+    if (filtroClase === "Extra") {
+        contenedor.style.display = "none";
+        buscador.style.display = "none";
+        contenedorExtra.style.display = "block";
+        renderizarMamiferos();
+        return;
+    }
+
+    contenedor.style.display = "grid";
+    buscador.style.display = "block";
+    contenedorExtra.style.display = "none";
+
     const texto = buscador.value.toLowerCase();
     const filtradas = especiesData.filter(e => {
         const coincide = (e.nombre_comun && e.nombre_comun.toLowerCase().includes(texto)) ||
@@ -234,6 +273,7 @@ botones.forEach(boton => {
 });
 
 renderizar();
+renderizarMamiferos();
 </script>
 </body>
 </html>
